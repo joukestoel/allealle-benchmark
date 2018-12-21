@@ -1,0 +1,52 @@
+Time (tId: id)                   = {<t1>..<t4>}
+tord(cur:id, next:id)            = {<t1,t2>,<t2,t3>,<t3,t4>}
+tfirst(tId: id)                  = {<t1>}
+
+Process (pId: id, token:int)     = {<p1,1>,<p2,2>,<p3,3>}
+
+succ (from:id, to:id)            <= {<p1,p1>..<p3,p3>}
+tokenSend (pId:id, tokenId:id, tId:id) <= {<p1,p1,t1>..<p3,p3,t4>}
+elected (pId:id, tId:id)         <= {<p1,t1>..<p3,t4>}
+
+// Time is total ordered
+// No extra constraints needed for this since the relation declaration already take care of this
+
+// Successor is a function
+succ ⊆ Process[pId -> from] ⨯ Process[pId -> to]
+∀ p ∈ Process | one p[pId as from] ⨝ succ
+
+elected ⊆ Process[pId] ⨯ Time
+
+// fact Ring
+∀ p ∈ Process[pId as from] | Process[pId] ⊆ (p ⨝ ^<from,to>succ)[to -> pId]
+
+// Initialize
+Process[pId] ⊆ (tokenSend ⨝ tfirst)[pId]
+∀ i ∈ (tokenSend ⨝ tfirst)[pId,tokenId] | some i where pId = tokenId
+
+// Traces
+∀ to ∈ tord | let t = to[cur -> tId], t' = to[next -> tId] |
+  ∀ p ∈ Process | 
+    (let from = (p ⨝ tokenSend)[tokenId,tId], to = ((p[pId as from] ⨝ succ)[to -> pId] ⨝ tokenSend)[tokenId,tId] |
+        ∃ token ∈ (from ⨝ t)[tokenId] |  
+          (from ⨝ t')[tokenId] = (from ⨝ t)[tokenId] ∖ token ∧ 
+          (to ⨝ t')[tokenId] = (to ⨝ t)[tokenId] ∪ (((token ⨝ Process[pId as tokenId]) ⨯ p[token as ownToken]) where token >= ownToken)[tokenId]  
+    ) ∨ 
+    (let pred = (succ ⨝ p[pId as to])[from as pId], from = (pred ⨝ tokenSend)[tokenId,tId], to = ((pred[pId as from] ⨝ succ)[to -> pId] ⨝ tokenSend)[tokenId,tId] |
+        ∃ token ∈ (from ⨝ t)[tokenId] |  
+          (from ⨝ t')[tokenId] = (from ⨝ t)[tokenId] ∖ token ∧ 
+          (to ⨝ t')[tokenId] = (to ⨝ t)[tokenId] ∪ (((token ⨝ Process[pId as tokenId]) ⨯ pred[token as ownToken]) where token >= ownToken)[tokenId] 
+    ) ∨ // skip 
+    (let pr = p ⨝ tokenSend | (pr ⨝ t)[tokenId] = (pr ⨝ t')[tokenId]) 
+
+// Define elected facts
+no elected ⨝ tfirst
+
+∀ to ∈ tord | let t = to[cur -> tId], t' = to[next -> tId] | 
+  ∀ p ∈ Process[pId] | (p[pId as tokenId] ⊆ (p ⨝ tokenSend ⨝ t')[tokenId] ∖ (p ⨝ tokenSend ⨝ t)[tokenId]) ⇔ p ⊆ (elected ⨝ t')[pId]
+ 
+some elected 
+  
+expect: sat, #models = 2
+
+
