@@ -1,9 +1,9 @@
-Person (pId:id) = {<p1>..<p6>}
+Person (pId:id) = {<p1>..<p15>}
 Jocelyn (pId:id) = {<p1>}
 Hilary (pId:id) = {<p2>}
-spouse (pId:id, sp:id) >= {<p1,p2>,<p2,p1>} <= {<p3,p3>..<p6,p6>}
-shaken (pId:id, other:id) <= {<p1,p1>..<p6,p6>}
-nrOfShakes (pId:id, nr:int) = {<p1,?>..<p6,?>}
+spouse (pId:id, sp:id) >= {<p1,p2>,<p2,p1>} <= {<p3,p3>..<p15,p15>}
+shaken (pId:id, other:id) <= {<p1,p1>..<p15,p15>}
+nrOfShakes (pId:id, nr:int) = {<p1,?>..<p15,?>}
 
 spouse ⊆ Person ⨯ Person[pId as sp]
 shaken ⊆ Person ⨯ Person[pId as other]

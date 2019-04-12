@@ -1,4 +1,4 @@
-package kodkod.examples.alloy;
+package relational.ringelection.kodkod;
 
 import java.util.ArrayList;
 import java.util.Iterator;

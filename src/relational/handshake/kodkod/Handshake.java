@@ -164,9 +164,9 @@ public final class Handshake {
 		final Handshake model = new Handshake();
 		final Solver solver = new Solver();
 
-		final int persons = 6;
+		final int persons = 15;
 
-		solver.options().setBitwidth(6);
+//		solver.options().setBitwidth(6);
 
 		solver.options().setSymmetryBreaking(0);
 		solver.options().setBitwidth(32 - Integer.numberOfLeadingZeros(persons));

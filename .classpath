@@ -8,6 +8,6 @@
 	<classpathentry kind="lib" path="lib/org.sat4j.core.jar"/>
 	<classpathentry kind="lib" path="lib/args4j-2.33.jar"/>
 	<classpathentry kind="lib" path="lib/pf4cs-1.0.5.jar"/>
-	<classpathentry kind="lib" path="lib/kodkod.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/kodkod-star"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
