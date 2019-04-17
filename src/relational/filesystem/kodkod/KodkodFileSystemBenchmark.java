@@ -13,8 +13,8 @@ public class KodkodFileSystemBenchmark extends KodkodBenchmark {
 	
 	@Override
 	public int[] getConfig() {
-		int begin = 10;
-		int end = 15;
+		int begin = 5;
+		int end = 11;
 		int[] config = new int[end-begin];
 		
 		for (int i = begin; i < end; i++) {
@@ -40,7 +40,7 @@ public class KodkodFileSystemBenchmark extends KodkodBenchmark {
 	}
 
 	@Override
-	public Formula getFormula() {
+	public Formula getFormula(int config) {
 		return fs.checkNoDirAliases();
 	}
 

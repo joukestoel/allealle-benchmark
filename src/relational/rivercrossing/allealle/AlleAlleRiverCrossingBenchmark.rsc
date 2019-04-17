@@ -3,7 +3,7 @@ module relational::rivercrossing::allealle::AlleAlleRiverCrossingBenchmark
 extend AlleAlleBenchmark;
 
 void runRiverCrossingBenchmark() 
-  = runBenchmark([1], "rivercrossing", true);
+  = runBenchmark([1], "relational", "rivercrossing", true);
 
 str constructRels(int config) 
   = "State (sId:id)                \>= {\<s1\>} \<= {\<s1\>..\<s8\>}

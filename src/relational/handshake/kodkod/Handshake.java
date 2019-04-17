@@ -174,18 +174,26 @@ public final class Handshake {
 		final Bounds b = model.bounds(persons);
 		final Formula f = model.runPuzzle();// .and(model.Person.count().eq(IntConstant.constant(persons)));
 
-		Iterator<Solution> sols = solver.solveAll(f, b);
-		int nrOfSols = 0;
-
-		while (sols.hasNext()) {
-			Solution sol = sols.next();
-
-			if (sol.sat()) {
-				nrOfSols += 1;
-			}
+		Solution sol = solver.solve(f, b);
+		if (sol.sat()) {
+			System.out.println("Sat!");
+			System.out.println(sol.instance());
+		} else {
+			System.out.println("Unsat");
 		}
-
-		System.out.println(nrOfSols);
+		
+//		Iterator<Solution> sols = solver.solveAll(f, b);
+//		int nrOfSols = 0;
+//
+//		while (sols.hasNext()) {
+//			Solution sol = sols.next();
+//
+//			if (sol.sat()) {
+//				nrOfSols += 1;
+//			}
+//		}
+//
+//		System.out.println(nrOfSols);
 
 	}
 

@@ -3,7 +3,6 @@ package relational.pigeonhole;
 import kodkod.ast.Formula;
 import kodkod.instance.Bounds;
 import relational.KodkodBenchmark;
-import kodkod.examples.alloy.Pigeonhole;
 
 public class KodkodPigeonholeBenchmark extends KodkodBenchmark {
 	private final Pigeonhole phProblem;
@@ -16,8 +15,8 @@ public class KodkodPigeonholeBenchmark extends KodkodBenchmark {
 	
 	@Override
 	public int[] getConfig() {
-		int startAt = 10;
-		int nrOfConfigs = 90;
+		int startAt = 5;
+		int nrOfConfigs = 6;
 		
 		int[] config = new int[nrOfConfigs];
 		for (int i = 0; i < config.length; i++) {
@@ -27,18 +26,8 @@ public class KodkodPigeonholeBenchmark extends KodkodBenchmark {
 		return config;
 	}
 
-	@Override
-	public int getNrOfWarmupRounds() {
-		return 10;
-	}
-
-	@Override
-	public int getNrOfRunsPerConfig() {
-		return 30;
-	}
-	
 	public boolean shouldSolve() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -47,7 +36,7 @@ public class KodkodPigeonholeBenchmark extends KodkodBenchmark {
 	}
 
 	@Override
-	public Formula getFormula() {
+	public Formula getFormula(int config) {
 		return phProblem.declarations().and(phProblem.pigeonPerHole());
 	}
 	

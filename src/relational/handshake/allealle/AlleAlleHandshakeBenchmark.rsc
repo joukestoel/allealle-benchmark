@@ -3,7 +3,7 @@ module relational::handshake::allealle::AlleAlleHandshakeBenchmark
 extend AlleAlleBenchmark;
 
 void runHandshakeBenchmark() 
-  = runBenchmark([10.11], "handshake", false); 
+  = runBenchmark([10..18], "relational", "handshake", true); 
 
 str constructRels(int config) {
   str rels = "Person (pId:id) = {<intercalate(",", ["\<p<i>\>" | i <- [1..config+1]])>}

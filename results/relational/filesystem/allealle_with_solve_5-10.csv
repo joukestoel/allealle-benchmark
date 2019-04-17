@@ -1,0 +1,7 @@
+#Config,TranslationTime,SolvingTime,Sat,#Vars,#Clauses 
+5,725,20,true,130,21839
+6,1320,30,true,180,43636
+7,2340,100,true,238,78741
+8,3996,50,true,304,131711
+9,8646,90,true,378,3192895
+10,14567,110,true,460,5359296

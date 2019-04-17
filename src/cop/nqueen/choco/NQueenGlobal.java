@@ -46,13 +46,16 @@ public class NQueenGlobal extends AbstractNQueen {
     
     @Override
 	public void solve() {
-    	int nrOfSols = 0;
+    	model.getSolver().solve();
     	
-    	while (model.getSolver().solve()) {
-    		nrOfSols += 1;
-    	}
-    	
-    	System.out.println("Nr of found solutions: " + nrOfSols);
+    	model.getSolver().printStatistics();
+//    	while (model.getSolver().solve()) {
+//    		nrOfSols += 1;
+//    	}
+//    	
+//    	model.getSolver().printStatistics();
+//    	
+//    	System.out.println("Nr of found solutions: " + nrOfSols);
     }
 
 	public static void main(String[] args) {

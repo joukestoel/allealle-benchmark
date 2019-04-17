@@ -1,12 +1,12 @@
-Time (tId: id)                   = {<t1>..<t4>}
-tord(cur:id, next:id)            = {<t1,t2>,<t2,t3>,<t3,t4>}
+Time (tId: id)                   = {<t1>..<t3>}
+tord(cur:id, next:id)            = {<t1,t2>,<t2,t3>}
 tfirst(tId: id)                  = {<t1>}
 
 Process (pId: id, token:int)     = {<p1,1>,<p2,2>,<p3,3>}
 
 succ (from:id, to:id)            <= {<p1,p1>..<p3,p3>}
-tokenSend (pId:id, tokenId:id, tId:id) <= {<p1,p1,t1>..<p3,p3,t4>}
-elected (pId:id, tId:id)         <= {<p1,t1>..<p3,t4>}
+tokenSend (pId:id, tokenId:id, tId:id) <= {<p1,p1,t1>..<p3,p3,t3>}
+elected (pId:id, tId:id)         <= {<p1,t1>..<p3,t3>}
 
 // Time is total ordered
 // No extra constraints needed for this since the relation declaration already take care of this

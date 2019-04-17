@@ -3,18 +3,24 @@ module relational::ringelection::allealle::AlleAlleRingElectionBenchmark
 extend AlleAlleBenchmark;
 
 void runRingElectionBenchmark() 
-  = runBenchmark([3..5], "ringelection", true);
+  = runBenchmark([3..6], "relational", "ringelection", true);
 
-str constructRels(int config)
-  = "Time (tId: id)                   = {<intercalate(",",["\<t<i>\>" | int i <- [0..config]])>}
-    'tord(cur:id, next:id)            = {<intercalate(",",["\<t<i>,t<i+1>\>" | int i <- [0..config-1]])>}
-    'tfirst(tId: id)                  = {\<t1\>}
+str constructRels(int config) {
+  int time = config+1;
+  int process = config;
+
+  str result = "Time (tId: id)                   = {<intercalate(",",["\<t<i>\>" | int i <- [0..time]])>}
+    'tord(cur:id, next:id)            = {<intercalate(",",["\<t<i>,t<i+1>\>" | int i <- [0..time-1]])>}
+    'tfirst(tId: id)                  = {\<t0\>}
     '
-    'Process (pId: id, token:int)     = {<intercalate(",",["\<p<i>,<i>\>" | int i <- [0..config]])>}
+    'Process (pId: id, token:int)     = {<intercalate(",",["\<p<i>,<i>\>" | int i <- [0..process]])>}
     '
-    'succ (from:id, to:id)            \<= {<intercalate(",",["\<p<i>,p<j>\>" | int i <- [0..config], int j <- [0..config]])>}
-    'tokenSend (pId:id, tokenId:id, tId:id) \<= {<intercalate(",",["\<p<i>,p<j>,t<k>\>" | int i <- [0..config], int j <- [0..config], int k <- [0..config]])>}
-    'elected (pId:id, tId:id)         \<= {<intercalate(",",["\<p<i>,t<j>\>" | int i <- [0..config], int j <- [0..config]])>}";
+    'succ (from:id, to:id)            \<= {<intercalate(",",["\<p<i>,p<j>\>" | int i <- [0..process], int j <- [0..process]])>}
+    'tokenSend (pId:id, tokenId:id, tId:id) \<= {<intercalate(",",["\<p<i>,p<j>,t<k>\>" | int i <- [0..process], int j <- [0..process], int k <- [0..time]])>}
+    'elected (pId:id, tId:id)         \<= {<intercalate(",",["\<p<i>,t<j>\>" | int i <- [0..process], int j <- [0..time]])>}";
+    
+    return result;
+}
 
 str getConstraints(int config) 
   = "// Successor is a function

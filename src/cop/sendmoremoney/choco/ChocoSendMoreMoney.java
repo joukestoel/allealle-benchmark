@@ -112,6 +112,7 @@ public class ChocoSendMoreMoney extends AbstractChocoProblem {
 
 	public static void main(String[] args) {
 		new ChocoSendMoreMoney().execute(args);
+		new ChocoSendMoreMoney().execute(args);
 	}
 
 }

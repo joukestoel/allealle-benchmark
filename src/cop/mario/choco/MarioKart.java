@@ -141,10 +141,9 @@ public class MarioKart extends AbstractChocoProblem {
 	public void solve() {
 		model.setObjective(true, goldFound);
 		while (model.getSolver().solve()) {
-			prettyOut();
-		}
+		};
 		
-		printInputData();
+		prettyOut();
 	}
 
 	private void prettyOut() {
@@ -155,6 +154,8 @@ public class MarioKart extends AbstractChocoProblem {
 		System.out.println("! " + goldFound.getValue() + " gold coins earned !");
 		
 		printRoute();
+		
+		model.getSolver().printStatistics();
 	}
 
 	private void printRoute() {
@@ -299,6 +300,8 @@ public class MarioKart extends AbstractChocoProblem {
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
+		new MarioKart().execute(args);
+		new MarioKart().execute(args);
 		new MarioKart().execute(args);
 	}
 

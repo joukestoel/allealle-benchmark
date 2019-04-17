@@ -121,7 +121,7 @@ public abstract class AbstractChocoProblem implements IProblem<Model> {
 		getRuntime().addShutdownHook(statOnKill);
 
 		this.solve();
-		userInterruption = false;
+ 		userInterruption = false;
 		getRuntime().removeShutdownHook(statOnKill);
 	}
 

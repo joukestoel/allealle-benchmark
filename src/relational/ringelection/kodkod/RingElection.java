@@ -310,41 +310,44 @@ public final class RingElection {
 	 * Usage: java examples.RingElection [# processes] [# times]
 	 */
 	public static void main(String[] args) {
-		if (args.length < 2)
-			usage();
+		final RingElection model = new RingElection();
+		final Solver solver = new Solver();
+		solver.options().setSolver(SATFactory.DefaultSAT4J);
+		solver.options().setSymmetryBreaking(0);
+		solver.options().setSkolemDepth(0);
 		
-		try {
-			final RingElection model = new RingElection();
-			final Solver solver = new Solver();
-			solver.options().setSolver(SATFactory.DefaultSAT4J);
-			solver.options().setSymmetryBreaking(0);
-			solver.options().setSkolemDepth(0);
-			
-			final int p = Integer.parseInt(args[0]);
-			final int t = Integer.parseInt(args[1]);
-	
-//			final Formula checkAtMostOneElected = model.checkAtMostOneElected();
-			final Formula show = model.invariants().and(model.someElected());			
-			final Bounds boundspt = model.bounds(p,t);
-			
-					
-			System.out.println("*****check AtMostOneElected for " + p +" Process, "+ t + " Time*****");
-//			Solution sol1 = solver.solve(checkAtMostOneElected, boundspt);
-			Iterator<Solution> solutions = solver.solveAll(show, boundspt);
-			int nrOfSols = 0;
-			while (solutions.hasNext()) {
-				Solution sol = solutions.next();
+		final int p = 2;//Integer.parseInt(args[0]);
+		final int t = 3;
 
-				if (sol.sat()) {
-					System.out.println(sol);
-					nrOfSols += 1;
-					
-					
-				}
+//		final Formula checkAtMostOneElected = model.checkAtMostOneElected();
+		final Formula show = model.invariants().and(model.someElected());			
+		final Bounds boundspt = model.bounds(p,t);
+		
 				
-			}
-			System.out.println(nrOfSols);
-	
+		System.out.println("*****check Show for " + p +" Process, "+ t + " Time*****");
+		Solution sol = solver.solve(show, boundspt);
+		
+		if (sol.sat()) {
+			System.out.println("Sat");
+			System.out.println(sol);
+		} else {
+			System.out.println("Unsat");
+		}
+//		Iterator<Solution> solutions = solver.solveAll(show, boundspt);
+//		int nrOfSols = 0;
+//		while (solutions.hasNext()) {
+//			Solution sol = solutions.next();
+//
+//			if (sol.sat()) {
+//				System.out.println(sol);
+//				nrOfSols += 1;
+//				
+//				
+//			}
+//			
+//		}
+//		System.out.println(nrOfSols);
+
 //			// run looplessPath for 13 Time, 3 Process
 //			final Formula runLooplessPath = model.declsAndFacts();//.and(model.looplessPath());
 //			final Bounds bounds313 = model.bounds(p, t);
@@ -353,10 +356,7 @@ public final class RingElection {
 //			System.out.println(bounds313);
 //			Solution sol2 = solver.solve(runLooplessPath, bounds313);
 //			System.out.println(sol2);
-			
-		} catch (NumberFormatException nfe) {
-			usage();
-		}
+
 	}
 	
 }

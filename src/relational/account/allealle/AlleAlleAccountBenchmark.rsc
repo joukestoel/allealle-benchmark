@@ -5,7 +5,7 @@ import util::Math;
 extend AlleAlleBenchmark;
 
 void runAccountBenchmark() 
-  = runBenchmark([5..11], "account", true); 
+  = runBenchmark([5..11], "relational", "account", true); 
 
 str constructRels(int config) 
   = "State (sId:id, amount:int)     \>= {\<s1,0\>} \<= {\<s1,0\>,\<s2,?\>..\<s5,?\>}
@@ -42,5 +42,5 @@ str getConstraints(int config)
     '   ((some b where ((balance - amount) \>= 0 && (newBalance = (balance - amount)))) ∧ (s2 ⨝ triggeredEvent)[eId] = Withdraw)
     ' ) 
     '// Goal state 
-    '∃ s ∈ State | some (s ⨝ accountInState ⨝ Account) where balance = <toInt(pow(2,config-2))>";
+    '∃ s ∈ State | some (s ⨝ accountInState ⨝ Account) where balance = <toInt(pow(2,config-1)) - config>";
   

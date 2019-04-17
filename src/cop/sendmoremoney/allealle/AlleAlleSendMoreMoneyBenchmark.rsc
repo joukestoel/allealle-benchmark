@@ -1,0 +1,29 @@
+module cop::sendmoremoney::allealle::AlleAlleSendMoreMoneyBenchmark
+
+extend AlleAlleBenchmark;
+
+void runSendMoreMoneyBenchmark() 
+  = runBenchmark([1], "cop", "sendmoremoney", true); 
+
+str constructRels(int config) 
+  = "d (id:id, val:int) = {\<d,?\>}
+    'e (id:id, val:int) = {\<e,?\>}
+    'm (id:id, val:int) = {\<m,?\>}
+    'n (id:id, val:int) = {\<n,?\>}
+    'o (id:id, val:int) = {\<o,?\>}
+    'r (id:id, val:int) = {\<r,?\>}
+    's (id:id, val:int) = {\<s,?\>}
+    'y (id:id, val:int) = {\<y,?\>}";
+
+str getConstraints(int config)
+  = "let letters = d ∪ e ∪ m ∪ n ∪ o ∪ r ∪ s ∪ y |
+    '  (∀ l ∈ letters | some l where val \>= 0 && val \<= 9) ∧ // all values between 0 and 10
+    '  (∀ l ∈ letters, l\' ∈ letters ∖ l | some ((l ⨯ l\'[id as id\',val as val\']) where val != val\')) // all values are distinct
+    '
+    '∀ nonzero ∈ m ∪ s | some nonzero where val \> 0
+    '
+    'let letters = d[id as dId, val as d] ⨯ e[id as eId, val as e] ⨯ m[id as mId, val as m] ⨯ n[id as nId,val as n] ⨯ o[id as oId,val as o] ⨯ r[id as rId,val as r] ⨯ s[id as sId,val as s] ⨯ y[id as yId,val as y] |
+    '  some letters where
+    '          (1000*s + 100*e + 10*n + d +
+    '           1000*m + 100*o + 10*r + e =
+    ' 10000*m + 1000*o + 100*n + 10*e + y)  ";

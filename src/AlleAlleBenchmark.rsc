@@ -30,7 +30,7 @@ default str constructRels(int config) { throw "Not yet implemented"; }
 default str getConstraints(int config) { throw "Not yet implemented"; }
 default str nrOfAtomsInUniverse(int config) { throw "Not yet implemented"; }
 
-void runBenchmark(list[int] config, str projectName, bool shouldSolve, int warmup = 10, int runsPerConfig = 30) {
+void runBenchmark(list[int] config, str part, str projectName, bool shouldSolve, int warmup = 10, int runsPerConfig = 30) {
   print("Warming up");
   Problem wu = getProblem(config[0]);
   
@@ -62,22 +62,22 @@ void runBenchmark(list[int] config, str projectName, bool shouldSolve, int warmu
   } 
     
   println("Completely done, saving to csv");
-  saveToCSV(benchmarkResult, projectName, config, shouldSolve);
+  saveToCSV(benchmarkResult, part, projectName, config, shouldSolve);
 }
 
-private void saveToCSV(map[int, list[Statistic]] benchmarkTimes, str projectName, list[int] config, bool shouldSolve) {
+private void saveToCSV(map[int, list[Statistic]] benchmarkTimes, str part, str projectName, list[int] config, bool shouldSolve) {
   map[int, Statistic] aggregated = aggregate(benchmarkTimes);
 
   str csv = "#Config,TranslationTime,SolvingTime,Sat,#Vars,#Clauses <for (int i <- sort(domain(aggregated))) {>
             '<aggregated[i].config>,<aggregated[i].translationTime>,<aggregated[i].solvingTime>,<aggregated[i].sat>,<aggregated[i].vars>,<aggregated[i].clauses><}>";
 
-  loc csvLoc = getCsvLoc(projectName, config, shouldSolve);
+  loc csvLoc = getCsvLoc(part, projectName, config, shouldSolve);
             
   writeFile(csvLoc, csv);
 }
 
-private loc getCsvLoc(str projectName, list[int] config, bool shouldSolve) {
-  loc base = |project://allealle-benchmark/results/relational/<projectName>/|;
+private loc getCsvLoc(str part, str projectName, list[int] config, bool shouldSolve) {
+  loc base = |project://allealle-benchmark/results/<part>/<projectName>/|;
   str fileName = "allealle_<shouldSolve ? "with" : "without">_solve_<config[0]>-<config[-1]>.csv";
   
   return base + fileName;

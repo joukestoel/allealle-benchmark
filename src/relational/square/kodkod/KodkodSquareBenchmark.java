@@ -28,7 +28,7 @@ public class KodkodSquareBenchmark extends KodkodBenchmark {
 	}
 
 	@Override
-	public Formula getFormula() {
+	public Formula getFormula(int config) {
 		return problem.constraints();
 	}
 

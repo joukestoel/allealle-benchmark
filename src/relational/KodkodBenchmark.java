@@ -56,7 +56,7 @@ public abstract class KodkodBenchmark {
 	}
 	
 	public abstract Bounds getBounds(int config);
-	public abstract Formula getFormula();
+	public abstract Formula getFormula(int config);
 	
 	public abstract boolean shouldSolve();
 	
@@ -69,12 +69,12 @@ public abstract class KodkodBenchmark {
 		return options;
 	}
 	
-	public void run() {
-		Formula formula = getFormula();
-				
+	public void run() {				
 		Options options = getOptions(1);
 		
 		System.out.print("Warming up");
+		
+		Formula formula = getFormula(config[0]);
 		for (int i = 0; i < getNrOfWarmupRounds(); i++) {
 			long startTime = System.currentTimeMillis();
 			Translator.translate(formula, getBounds(config[0]), options);
@@ -85,11 +85,12 @@ public abstract class KodkodBenchmark {
 		for (int i = 0; i < config.length; i++) {
 			System.out.print("Starting \'" + getProblemName() + "\' run with config \'" + config[i] + "\'");
 			
+			formula = getFormula(config[i]);
+			options = getOptions(config[i]);
+
 			for (int r = 0; r < getNrOfRunsPerConfig(); r++) {
 				System.out.print(".");
-				
-				options = getOptions(config[i]);
-				
+								
 				long startTransl = getCpuTime();
 				Translation.Whole translation = Translator.translate(formula, getBounds(config[i]), options);
 				long endTransl = getCpuTime();

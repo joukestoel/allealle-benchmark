@@ -27,7 +27,7 @@ public class KodkodRiverCrossingBenchmark extends KodkodBenchmark {
 	}
 
 	@Override
-	public Formula getFormula() {
+	public Formula getFormula(int config) {
 		return rc.constraints();
 	}
 

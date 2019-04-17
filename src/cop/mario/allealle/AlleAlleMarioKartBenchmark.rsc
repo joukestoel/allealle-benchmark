@@ -1,0 +1,32 @@
+module cop::mario::allealle::AlleAlleMarioKartBenchmark
+
+extend AlleAlleBenchmark;
+
+void runMarioKartBenchmark() 
+  = runBenchmark([1], "cop", "mariokart", true); 
+
+str constructRels(int config) {
+  str rels = "house (hId:id, gold:int)                 = {\<luigi,0\>,\<mario,0\>,\<h3,40\>,\<h4,67\>,\<h5,89\>,\<h6,50\>}
+             'MariosHouse (hId:id)                     = {\<mario\>}
+             'LuigisHouse (hId:id)                     = {\<luigi\>}
+             'path (from:id, to:id, consumption:int)  \<= {\<h4,h3,127\>,\<mario,h3,274\>,\<luigi,h6,679\>,\<h6,h4,80\>,\<mario,h4,808\>,\<h3,mario,274\>,\<h5,h3,110\>,\<h3,h5,110\>,\<h6,h3,72\>,\<h3,h4,127\>,\<mario,luigi,221\>,\<mario,h6,677\>,\<h6,h5,951\>,\<h5,h4,717\>,\<luigi,mario,0\>,\<h4,h5,717\>,\<h4,mario,808\>,\<luigi,h5,813\>,\<mario,h3,274\>,\<h5,mario,13\>,\<h6,luigi,679\>,\<h5,h6,951\>,\<h5,luigi,813\>,\<h6,mario,677\>,\<h4,luigi,83\>,\<h4,h6,80\>,\<luigi,h4,83\>,\<h3,h6,72\>,\<h3,luigi,702\>,\<luigi,h3,702\>,\<mario,h5,13\>}
+             'goals (goldCollected:int, fuelSpend:int, fuelMax:int) = {\<?,?,350\>}";
+
+  return rels;
+}
+
+str getConstraints(int config)
+  = "some (goals ⨯ path[sum(consumption) as consumedFuel] ⨯ (house[hId as from] ⨝ path)[sum(gold) as collected]) 
+    '    where (goldCollected = collected && fuelSpend = consumedFuel && fuelSpend \< fuelMax)
+    '
+    '//// Can only visit a house once
+    '∀ h ∈ house | lone (h[hId as from] ⨝ path) ∧ lone (h[hId as to] ⨝ path)
+    '
+    '//// Single circuit: if a house in part of the route then it is reachable from MariosHouse
+    '∀ p ∈ path | (p[from -\> to] ∪ p[to]) ⊆ (MariosHouse[hId as from] ⨝ *\<from,to\>(path[from,to]))[to]
+    '
+    '//// Closing the circuit: The next stop from Luigi\'s house is always Mario\'s house 
+    '(LuigisHouse[hId as from] ⨝ path)[to -\> hId] = MariosHouse
+    '
+    '//// Goal, collect as much gold as possible
+    'objectives: maximize goals[goldCollected]";

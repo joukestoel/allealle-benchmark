@@ -2,7 +2,7 @@ module relational::pigeonhole::AlleAllePigeonholeBenchmark
 extend AlleAlleBenchmark;
 
 void runPigeonholeBenchmark()  
-  = runBenchmark([10..11], "pigeonhole", false); 
+  = runBenchmark([5..11], "relational", "pigeonhole", true); 
 
 str constructRels(int config)
   = "Pigeon (pId: id)           =  {<intercalate(",", ["\<p<i>\>" | int i <- [0..config]])>}

@@ -11,6 +11,7 @@ import static org.chocosolver.solver.search.strategy.Search.minDomLBSearch;
 import static org.chocosolver.util.tools.ArrayUtils.append;
 
 import org.chocosolver.solver.Model;
+import org.chocosolver.solver.exception.ContradictionException;
 import org.chocosolver.solver.variables.IntVar;
 import org.kohsuke.args4j.Option;
 
@@ -30,7 +31,7 @@ import cop.AbstractChocoProblem;
 public class Sudoku extends AbstractChocoProblem {
 
     @Option(name = "-g", aliases = "--grid", usage = "Sudoku grid ID.", required = false)
-    Data data = Data.level1;
+    Data data = Data.level7;
 
     private final int n = 9;
     IntVar[][] rows, cols, carres;
@@ -81,14 +82,7 @@ public class Sudoku extends AbstractChocoProblem {
 
     @Override
     public void solve() {
-        model.getSolver().showStatistics();
-        int nrOfSols = 0;
-        
-        while (model.getSolver().solve()) {
-        	nrOfSols += 1;
-        }
-        
-        System.out.println("Nr of found solutions: " + nrOfSols);
+        if (model.getSolver().solve()) {};
 
         StringBuilder st = new StringBuilder(String.format("Sudoku -- %s\n", data.name()));
         st.append("\t");
@@ -100,8 +94,6 @@ public class Sudoku extends AbstractChocoProblem {
         }
 
         System.out.println(st.toString());
-
-//
     }
 
     public static void main(String[] args) {
@@ -186,6 +178,19 @@ public class Sudoku extends AbstractChocoProblem {
                         {0, 0, 3, 0, 1, 4, 7, 0, 6},
                         {0, 0, 0, 0, 0, 0, 0, 0, 0},
                         {6, 0, 0, 5, 0, 0, 0, 8, 0}
+                }
+        ),
+        level7(
+                new int[][]{
+                        {3, 0, 0, 0, 8, 0, 0, 0, 9},
+                        {0, 9, 0, 7, 0, 6, 0, 8, 0},
+                        {0, 0, 8, 0, 0, 0, 2, 0, 0},
+                        {0, 6, 0, 0, 1, 0, 0, 7, 0},
+                        {2, 0, 0, 6, 0, 3, 0, 0, 8},
+                        {0, 5, 0, 0, 9, 0, 0, 2, 0},
+                        {0, 0, 1, 0, 0, 0, 8, 0, 0},
+                        {0, 8, 0, 9, 0, 2, 0, 5, 0},
+                        {5, 0, 0, 0, 7, 0, 0, 0, 4}
                 }
         ),;
         final int[][] grid;

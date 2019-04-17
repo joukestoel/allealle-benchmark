@@ -35,7 +35,7 @@ import static org.chocosolver.solver.search.strategy.Search.inputOrderUBSearch;
 public class Knapsack extends AbstractChocoProblem {
 
     @Option(name = "-d", aliases = "--data", usage = "Knapsack data ID.", required = false)
-    Data data = Data.k10;
+    Data data = Data.k0;
 
     @Option(name = "-n", usage = "Restricted to n objects.", required = false)
     int n = -1;
@@ -102,14 +102,10 @@ public class Knapsack extends AbstractChocoProblem {
     public void solve() {
         model.setObjective(true, power);
         
-        long startTime = System.currentTimeMillis();
-        int nrOfSolutions = 0;
         while (model.getSolver().solve()) {
             out.println(power);
             prettyOut();
-            nrOfSolutions += 1;
         }
-        System.out.println("Nr of found solutions: " + nrOfSolutions + ", took: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     private void prettyOut() {

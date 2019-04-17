@@ -3,7 +3,7 @@ module relational::filesystem::allealle::AlleAlleFileSystemBenchmark
 extend AlleAlleBenchmark;
 
 void runFileSystemBenchmark() 
-  = runBenchmark([5..6], "filesystem", true); 
+  = runBenchmark([5..11], "relational", "filesystem", true); 
 
 str constructRels(int config) {
   str rels = "Object (oId: id)  \<= {<intercalate(",", ["\<o<i>\>" | i <- [0..config]])>}

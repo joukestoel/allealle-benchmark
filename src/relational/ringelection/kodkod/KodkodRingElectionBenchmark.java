@@ -23,11 +23,11 @@ public class KodkodRingElectionBenchmark extends KodkodBenchmark {
 	
 	@Override
 	public Bounds getBounds(int config) {
-		return re.bounds(config);
+		return re.bounds(config, config+1);
 	}
 
 	@Override
-	public Formula getFormula() {
+	public Formula getFormula(int config) {
 		return re.invariants().and(re.someElected());
 	}
 
