@@ -6,10 +6,8 @@ import util::Benchmark;
 import IO;
 import Map;
 
-import ide::CombinedModelFinder;
-import ide::CombinedAST;
-import ide::CombinedImploder;   
-
+import ide::Imploder;   
+import translation::AST;
 import translation::Environment;
 import translation::Translator;
 import translation::Relation;

@@ -18,7 +18,7 @@ succ ⊆ Process[pId -> from] ⨯ Process[pId -> to]
 elected ⊆ Process[pId] ⨯ Time
 
 // fact Ring
-∀ p ∈ Process[pId as from] | Process[pId] ⊆ (p ⨝ ^<from,to>succ)[to -> pId]
+∀ p ∈ Process[pId as from] | Process[pId] ⊆ (p ⨝ ^succ)[to -> pId]
 
 // Initialize
 Process[pId] ⊆ (tokenSend ⨝ tfirst)[pId]
